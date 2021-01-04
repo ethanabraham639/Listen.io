@@ -1,3 +1,5 @@
+#views.py in the api folder is 
+
 from django.shortcuts import render
 from rest_framework import generics, status
 from .serializers import RoomSerializer, CreateRoomSerializer, UpdateRoomSerializer

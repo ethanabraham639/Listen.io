@@ -1,3 +1,6 @@
+#models.py in api/ is used to declare the structure of each thing in the program
+#here we have a class for Room which declares the structure for a room
+
 from django.db import models
 import string
 import random
