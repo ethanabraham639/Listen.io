@@ -1,4 +1,6 @@
-#views.py in the api folder is 
+#views.py in the api folder basically stores information about your room in a nice view based
+#on the serializers you made to nicely view the variables. In urls.py there are paths to display
+#these views on the page for the programmer (us) to see when debugging.
 
 from django.shortcuts import render
 from rest_framework import generics, status

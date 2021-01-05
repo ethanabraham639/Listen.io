@@ -1,3 +1,7 @@
+#urls.py in music_controller tells which urls.py to go to based on the stuff written before it
+#therefore after the domain if there is nothing, it will go to the frontend urls.py which are
+#the pages that the user will see
+
 """music_controller URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:

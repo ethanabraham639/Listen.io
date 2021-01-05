@@ -1,5 +1,7 @@
 #models.py in api/ is used to declare the structure of each thing in the program
-#here we have a class for Room which declares the structure for a room
+#here we have a class for Room which declares the structure for a Room
+#django uses this structure to store information in a database format so that we
+#are able to access specific information about a Room in an organized way
 
 from django.db import models
 import string
