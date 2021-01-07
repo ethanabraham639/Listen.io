@@ -1,3 +1,7 @@
+#views.py in spotify/ sets up different redirects for the user to authenticate their
+#spotify account, get back to Listen.io, and confirm their authentication to enable
+#the Spotify API
+
 from django.shortcuts import render, redirect
 from .credentials import REDIRECT_URI, CLIENT_SECRET, CLIENT_ID
 from rest_framework.views import APIView

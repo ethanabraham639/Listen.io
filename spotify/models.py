@@ -1,3 +1,6 @@
+#models.py in spotify/ creates the structure of a spotify token that we need when using the
+#Spotify API so that the user is able to stay signed in
+
 from django.db import models
 
 class SpotifyToken(models.Model):
