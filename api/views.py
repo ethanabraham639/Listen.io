@@ -26,6 +26,11 @@ class GetRoom(APIView):
     def get(self, request, format=None):
         code = request.GET.get(self.lookup_url_kwarg)
         if code != None:
+            
+            #Below we are creating an array of all the Rooms in the database that haev
+            #a matching code. If len > 0 then the room exists and we retrieve the data
+            #for that Room to send back, along with a HTTP 200_OK
+            
             room = Room.objects.filter(code=code)
             if len(room) > 0:
                 data = RoomSerializer(room[0]).data

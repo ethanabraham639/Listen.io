@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Grid, Button, Typography} from "@material-ui/core";
+import { Grid, Button, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 
 export default class Room extends Component {
+  //The constructor sets the default values for each of the attributes in the Room object
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,17 +12,23 @@ export default class Room extends Component {
       guestCanPause: false,
       isHost: false,
       showSettings: false,
-      spotifyAuthenticated: false
     };
+
+    //In JavaScript we must bind the function to the "this" keyword in order to use it
+
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
     this.updateShowSettings = this.updateShowSettings.bind(this);
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
     this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
-    this.authenticateSpotify = this.authenticateSpotify.bind(this);
     this.getRoomDetails();
   }
+
+  //The function below has a fetch request redirected to the GetRoom APIView in views.py
+  //If the response isnt OK then they are redirected to HomePage, and it shows the error
+  //Else, the data from the specific room in the HTTP Response is retrieved and the
+  //respective variables for that room are able to be accessed
 
   getRoomDetails() {
     fetch("/api/get-room" + "?code=" + this.roomCode)
@@ -37,33 +45,13 @@ export default class Room extends Component {
           guestCanPause: data.guest_can_pause,
           isHost: data.is_host,
         });
-        
-        if (this.state.isHost) {
-          this.authenticateSpotify();
-        }
-        
-      });
-  }
-
-  authenticateSpotify() {
-    fetch('/spotify/is-authenticated')
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ spotifyAuthenticated: data.status });
-        if (!data.status) {
-          fetch('/spotify/get-auth-url')
-            .then((response) => response.json())
-            .then((data) => {
-              window.location.replace(data.url);
-            });
-        }
       });
   }
 
   leaveButtonPressed() {
     const requestOptions = {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
     };
 
     fetch("/api/leave-room", requestOptions).then((_response) => {
@@ -84,17 +72,17 @@ export default class Room extends Component {
         <Grid item xs={12} align="center">
           <CreateRoomPage
             update={true}
-            votesToSkip = {this.state.votesToSkip}
-            guestCanPause = {this.state.guestCanPause}
-            roomCode = {this.roomCode}
-            updateCallback = {this.getRoomDetails}
+            votesToSkip={this.state.votesToSkip}
+            guestCanPause={this.state.guestCanPause}
+            roomCode={this.roomCode}
+            updateCallback={this.getRoomDetails}
           />
         </Grid>
 
         <Grid item xs={12} align="center">
           <Button
-            variant = "contained"
-            color = "secondary"
+            variant="contained"
+            color="secondary"
             onClick={() => this.updateShowSettings(false)}
           >
             Close
@@ -108,8 +96,8 @@ export default class Room extends Component {
     return (
       <Grid item xs={12} align="center">
         <Button
-          variant = "contained"
-          color = "primary"
+          variant="contained"
+          color="primary"
           onClick={() => this.updateShowSettings(true)}
         >
           Settings
@@ -122,7 +110,7 @@ export default class Room extends Component {
     if (this.state.showSettings) {
       return this.renderSettings();
     }
-    
+
     return (
       <Grid container spacing={1}>
         <Grid item xs={12} align="center">
@@ -152,15 +140,15 @@ export default class Room extends Component {
         {this.state.isHost ? this.renderSettingsButton() : null}
 
         <Grid item xs={12} align="center">
-          <Button variant="contained" color="secondary" onClick={ this.leaveButtonPressed} >
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this.leaveButtonPressed}
+          >
             Leave Room
           </Button>
         </Grid>
-
       </Grid>
-      
-      
-      
     );
   }
 }

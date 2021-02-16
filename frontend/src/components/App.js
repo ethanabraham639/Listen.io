@@ -1,4 +1,4 @@
-//App.js basically starts the app on the HomePage (vero confirm this im not 100% sure)
+//App.js basically starts the app on the HomePage
 //Every other ____.js file in this folder is the front end code for each page
 
 import React, { Component } from "react";
@@ -12,7 +12,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className = "center">
+      <div className="center">
         <HomePage />
       </div>
     );

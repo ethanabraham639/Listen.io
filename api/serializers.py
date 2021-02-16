@@ -1,6 +1,6 @@
 #serializers.py takes the python code from models.py and converts it to a JSON (JavaScript
-#Object Notation) response so that we have nice readable fields for each variable in the class
-#that we want to examine
+#Object Notation) response. The serializer makes sure that the requests from the client
+#are valid by making sure that the fields match
 
 from rest_framework import serializers
 from .models import Room
