@@ -1,6 +1,5 @@
-#views.py in the api folder basically stores information about your room in a nice view based
-#on the serializers you made to nicely view the variables. In urls.py there are paths to display
-#these views on the page for the programmer (us) to see when debugging.
+#views.py in the api folder basically handles all of the REST API fetch requests to get, update, and verify data.
+#In urls.py there are paths to these views so that the api endpoint can do its backend work, and send an HTTP response.
 
 from django.shortcuts import render
 from rest_framework import generics, status
@@ -27,8 +26,8 @@ class GetRoom(APIView):
         code = request.GET.get(self.lookup_url_kwarg)
         if code != None:
             
-            #Below we are creating an array of all the Rooms in the database that have a matching code. If len > 0 then the room exists and we retrieve the data
-            #for that Room to send back, along with a HTTP 200_OK
+            #Below we are creating an array of all the Rooms in the database that have a matching code.
+            #If len > 0 then the room exists and we retrieve the data for that Room to send back, along with a HTTP 200_OK
             
             room = Room.objects.filter(code=code)
             if len(room) > 0:
