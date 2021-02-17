@@ -45,6 +45,8 @@ export default class CreateRoomPage extends Component {
     this.handleUpdateButtonPressed = this.handleUpdateButtonPressed.bind(this);
   }
 
+  //The two functions below just update the variable with the value passed
+
   handleVotesChange(e) {
     this.setState({
       votesToSkip: e.target.value,
@@ -56,6 +58,10 @@ export default class CreateRoomPage extends Component {
       guestCanPause: e.target.value === "true" ? true : false,
     });
   }
+
+  //The function below sends an HTTP request to the CreateRoomView APIView in views.py
+  //After creating the room and getting the HTTP response, the webpage is redirected to
+  //the endpoint with the room code to enter the room
 
   handleRoomButtonPressed() {
     const requestOptions = {
@@ -70,6 +76,9 @@ export default class CreateRoomPage extends Component {
       .then((response) => response.json())
       .then((data) => this.props.history.push("/room/" + data.code));
   }
+
+  //The function below is similar to createRoom except now a PATCH request and the code is
+  //sent to be able to verify who the host is and if the user is allowed to change the settings
 
   handleUpdateButtonPressed() {
     const requestOptions = {
@@ -95,6 +104,10 @@ export default class CreateRoomPage extends Component {
       this.props.updateCallback();
     });
   }
+
+  //Below we have two separate functions depending on fi we are creating the room or
+  //updating an existing one. In the main render, we choose which function to call based
+  //on the conditionals
 
   renderCreateButtons() {
     return (

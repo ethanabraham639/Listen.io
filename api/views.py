@@ -49,6 +49,11 @@ class JoinRoom(APIView):
 
         code = request.data.get(self.lookup_url_kwarg)
         if code != None:
+            
+            #Here we are searching all rooms that have a code that matches the one
+            #inputted by the user. If there is an element in the room_result array,
+            #we have found a valid room and we can send a 200_OK response
+            
             room_result = Room.objects.filter(code=code)
 
             if len(room_result) > 0:
@@ -67,12 +72,18 @@ class CreateRoomView(APIView):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
 
+        #The serializer verifies that the HTTP request is valid (fields match)
+        
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             guest_can_pause = serializer.data.get('guest_can_pause')
             votes_to_skip = serializer.data.get('votes_to_skip')
             host = self.request.session.session_key
             queryset = Room.objects.filter(host=host)
+
+            #Once getting information on the specific room and its host, the attributes of
+            #the room are updated based on the values in the request
+
             if queryset.exists():
                 room = queryset[0]
                 room.guest_can_pause = guest_can_pause
@@ -80,6 +91,11 @@ class CreateRoomView(APIView):
                 room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
                 self.request.session['room_code'] = room.code
                 return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
+
+            #If the room does not already exist, a room is created with the attibutes of
+            #the values sent in the request. The condition above is to update the attributes
+            #of the room if the room already exists
+
             else:
                 room = Room(host=host, guest_can_pause=guest_can_pause,
                             votes_to_skip=votes_to_skip)
@@ -114,6 +130,10 @@ class LeaveRoom(APIView):
 
 class UpdateRoom(APIView):
     serializer_class = UpdateRoomSerializer
+
+    #The difference between a PUT and PATCH request is that in patch you only provide the
+    #field you would like to update, whereas with put you provide info of everything to
+    #override the previous object
     
     def patch(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
@@ -135,6 +155,9 @@ class UpdateRoom(APIView):
             if room.host != user_id:
                 return Response({"msg": "You are not the host of this room."}, status=status.HTTP_403_FORBIDDEN)
 
+            #If the user is the host, they are able to change the settings and therefore
+            #the fields are updated and a HTTP 200 is sent back
+            
             room.guest_can_pause = guest_can_pause
             room.votes_to_skip = votes_to_skip
             room.save(update_fields=['guest_can_pause', 'votes_to_skip'])

@@ -1,6 +1,6 @@
-#urls.py in the api folder is to display the information for specific aspects of the program
-#to help us when debugging. The user will never actually access these pages from the buttons
-#on the interface
+#urls.py in the api folder is to set a path for the different endpoints to access the
+#different APIViews made in view.py. At each of the api endpoints we will be requesting
+#information from the backend and sending back HTTP responses indicating what action was done
 
 from django.urls import path
 from .views import RoomView, CreateRoomView, GetRoom, JoinRoom, UserInRoom, LeaveRoom, UpdateRoom

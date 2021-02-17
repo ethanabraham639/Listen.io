@@ -81,6 +81,8 @@ export default class RoomJoinPage extends Component {
       }),
     };
 
+    //If we get a 200_OK, we can enter the room with the code we entered
+
     fetch("/api/join-room", requestOptions)
       .then((response) => {
         if (response.ok) {
